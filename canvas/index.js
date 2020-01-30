@@ -2,8 +2,8 @@ const canvas = document.querySelector('#canvas');
 const context = canvas.getContext('2d');
 
 const quantity = {
-  x: 100,
-  y: 190,
+  x: 60,
+  y: 60,
 };
 
 const dimensions = {
@@ -25,7 +25,7 @@ function start() {
 
   setInterval(() => {
     firePropagation(structure);
-  }, 50);
+  }, 100);
 } 
 
 function createFireStructure({ x, y } = {}) {
@@ -59,8 +59,8 @@ function initializeFireStructure(structure) {
 function firePropagation(structure) {
   // - 1 para nao iterar na ultima linha ou no caso ultimo item do array
   for (let r = 0; r < structure.length - 1; r++) {
-    for (let c = 0; c < structure[r].length; c++) {
-      const dropFire = Math.floor(Math.random() * 2.3);
+    for (let c = 0; c < structure.length; c++) {
+      const dropFire = Math.floor(Math.random() * 3);
       const intensityBelow = structure[r + 1][c];
       const intensity = intensityBelow - dropFire <= 0 ? 0 : intensityBelow - dropFire;
     
@@ -68,8 +68,9 @@ function firePropagation(structure) {
 
       if(vento){
         cIndex -= 1;
+
         if( cIndex < 0) 
-          cIndex += quantity.y;
+          cIndex = quantity.y - 1;
       } 
 
       structure[r][cIndex] = intensity;
@@ -81,8 +82,6 @@ function firePropagation(structure) {
 
 function renderFire(structure) {
   context.clearRect(0, 0, dimensions.width, dimensions.height);
-  // context.fillStyle = '#000';
-  // context.fillRect(0, 0, dimensions.width, dimensions.height);
 
   for (let r = 0; r < structure.length; r++) {
     for (let c = 0; c < structure[r].length; c++) {
